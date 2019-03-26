@@ -26,6 +26,8 @@ That's all. You can interface with GameOfLife via the command line. As an exampl
 python3 main.py
 ```
 
+The scripts will automatically create and save a **.gif** animation in the same directory where the **main.py** is (few examples are already there).
+
 ## User guide
 
 If at any time you need a quick reference, just run the `help` command:
@@ -52,4 +54,44 @@ optional arguments:
   -interval INTERVAL    interval (in milliseconds) between iterations
   --seed-position SEED_POSITION
                         comma-separated coordinates of seed
+```
+
+## Configurations
+
+The configurations present in the **config.py** file are the following:
+
+```Python
+seeds = {
+    "diehard": [
+        [0, 0, 0, 0, 0, 0, 1, 0],
+        [1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 1, 1, 1],
+    ],
+
+    "boat": [[1, 1, 0], [1, 0, 1], [0, 1, 0]],
+    "r_pentomino": [[0, 1, 1], [1, 1, 0], [0, 1, 0]],
+    "pentadecathlon": [
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 1, 1, 1, 1, 0, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1],
+    ],
+    "beacon": [[1, 1, 0, 0], [1, 1, 0, 0], [0, 0, 1, 1], [0, 0, 1, 1]],
+    "acorn": [[0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0], [1, 1, 0, 0, 1, 1, 1]],
+    "spaceship": [[0, 0, 1, 1, 0], [1, 1, 0, 1, 1], [1, 1, 1, 1, 0], [0, 1, 1, 0, 0]],
+    "block_switch_engine": [
+        [0, 0, 0, 0, 0, 0, 1, 0],
+        [0, 0, 0, 0, 1, 0, 1, 1],
+        [0, 0, 0, 0, 1, 0, 1, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0, 0],
+        [1, 0, 1, 0, 0, 0, 0, 0],
+    ],
+    "infinite": [
+        [1, 1, 1, 0, 1],
+        [1, 0, 0, 0, 0],
+        [0, 0, 0, 1, 1],
+        [0, 1, 1, 0, 1],
+        [1, 0, 1, 0, 1],
+    ]
+}
 ```
