@@ -26,7 +26,7 @@ class GameOfLife:
         # Initialise world (grid)
         self.grid = np.zeros(grid_size)
 
-    def cell_survival(x, y):
+    def cell_survival(self, x, y):
         """
             Checks if the cell at position
             (x,y) survives or not based on
@@ -40,7 +40,7 @@ class GameOfLife:
                 :type y: int
         """
         # Compute number of living cells around (x,y)
-        neighbours = np.sum(self.grid[x-1:x+2, y-1:y+2] - self.grid[x, y])
+        neighbours = np.sum(self.grid[x-1:x+2, y-1:y+2]) - self.grid[x, y]
 
         # Apply rules of the game
         if self.grid[x, y] and not (2 <= neighbours <= 3):
@@ -49,7 +49,7 @@ class GameOfLife:
             return 1
         return self.grid[x, y]
 
-    def grid_check():
+    def grid_check(self):
         """
             Cell checking for all the grid
 
@@ -63,12 +63,12 @@ class GameOfLife:
         # Apply game's rule over the whole grid
         for i in range(self.grid.shape[0]):
             for j in range(self.grid.shape[1]):
-                new_grid[i, j] = self.cell_survival(i, j, self.grid)
+                new_grid[i, j] = self.cell_survival(i, j)
 
         # Return new grid
         return new_grid
 
-    def animate(seed, seed_position, quality=200, cmap="Purples", n_generations=50, interval=300):
+    def animate(self, seed, seed_position, quality=200, cmap="Purples", n_generations=50, interval=300, save=True):
         """
             Animation (but quite like Disney, sorry)
 
@@ -76,8 +76,7 @@ class GameOfLife:
                 :type universe_size: tuple (int, int)
                 :param seed: initial starting array
                 :type seed: list of lists, np.ndarray
-                :param seed_position: coordinates where the top-left corner of the seed array should
-                                      be pinned
+                :param seed_position: coordinates where the top-left corner of the seed array should be pinned
                 :type seed_position: tuple (int, int)
                 :param cmap: the matplotlib cmap that should be used
                 :type cmap: str
@@ -92,13 +91,16 @@ class GameOfLife:
         x_start, y_start = seed_position[0], seed_position[1]
 
         # Initial config (seed)
-        seed_array = np.array(seeds[seed])
+        seed_array = np.array(seeds[str(seed)])
+        print("Seed array: ", seed_array)
 
         # Determine endpoints of the seed
         x_end, y_end = x_start + seed_array.shape[0], y_start + seed_array.shape[1]
 
         # Inject seed in the grid
+        print("Unseed grid: ", self.grid)
         self.grid[x_start:x_end, y_start:y_end] = seed_array
+        print("Seed grid: ", self.grid)
 
         # Animation baby
         fig = plt.figure(dpi=quality)
@@ -107,11 +109,17 @@ class GameOfLife:
 
         # Iterate over grid
         for i in range(n_generations):
-            ims.append((plt.imshow(universe, cmap=cmap),))
-            universe = generation(universe)
+            print("Iteration " + str(i) + " out of " + str(n_generations))
+            plt.imshow(self.grid, cmap=cmap)
+            ims.append((plt.imshow(self.grid, cmap=cmap),))
+            self.grid = self.grid_check()
 
         im_ani = animation.ArtistAnimation(fig,
                                            ims,
                                            interval=interval,
                                            repeat_delay=3000,
                                            blit=True)
+
+        # Save gif
+        if save:
+            im_ani.save((str(seed) + ".gif"), writer="imagemagick")

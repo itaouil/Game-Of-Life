@@ -58,15 +58,17 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Create game instance
-    gol = GameOfLife((int(args.grid_size.split(",")[0])),
-                     (int(args.grid_size.split(",")[1])))
+    tuple_size = (int(args.grid_size.split(",")[0]), int(args.grid_size.split(",")[1]))
+    print("Grid size: ", tuple_size)
+    gol = GameOfLife(tuple_size)
 
     # Run animation
-    gol.animate(args.seed,
-                args.quality,
-                args.cmap,
-                (int(args.seed_position.split(",")[0]),
-                 int(args.seed_position.split(",")[1]))
-                ),
-                args.n,
-                args.Interval)
+    seed_pos = (int(args.seed_position.split(",")[0]), int(args.seed_position.split(",")[1]))
+    print("Seed pos: ", seed_pos)
+    print(args.seed)
+    gol.animate(seed=args.seed,
+                quality=args.quality,
+                cmap=args.cmap,
+                seed_position=seed_pos,
+                n_generations=args.n,
+                interval=args.interval)
