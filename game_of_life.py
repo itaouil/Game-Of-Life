@@ -110,7 +110,6 @@ class GameOfLife:
         # Iterate over grid
         for i in range(n_generations):
             print("Iteration " + str(i) + " out of " + str(n_generations))
-            plt.imshow(self.grid, cmap=cmap)
             ims.append((plt.imshow(self.grid, cmap=cmap),))
             self.grid = self.grid_check()
 
@@ -122,4 +121,8 @@ class GameOfLife:
 
         # Save gif
         if save:
-            im_ani.save((str(seed) + ".gif"), writer="imagemagick")
+            gif = str(seed) + ".gif"
+            print("Saving gif: " + gif)
+            im_ani.save(gif, writer="imagemagick")
+
+        return
